@@ -1,28 +1,27 @@
-let numbers = [25 , 38 , 19 , 45 , 80]
+let numbers = [24 , 38 , 19 , 45 , 80]
 
 
+function callbackMap(number){
 
-// -----  MAP ----------- // 
+    const multi = number * 2
 
-
-function callbackMap (element , index , array ){
-
-    return `O numero:[${element - (element * 0.5 )}]  index:${index} e ele faz parte do Array [${array}]`
-
+    return multi
 }
 
+function map(number , callback){
+    
+    let array = []
 
-function map (array , callback) {
+    for(let i = 0 ; i < number.length ; i++){
 
-    let newArray = []
+        let value = number[i]
 
+        let result = callback(value , i , number)
 
-    for(let i = 0 ; i < array.length ; i++){
-
-        newArray.push(callback(array[i] , i , array))
+        array.push(result)
     }
 
-    return newArray
+    return array
 
 }
 
@@ -30,149 +29,166 @@ console.log(map(numbers , callbackMap))
 
 
 
-
-//------   FILTER  ----------- //
-
+// ----   FILTER  --------- // 
 
 
-function callbackFilter(element , index , array){
 
-    return `O numero [${element }] index: ${index } e ele faz parte  do array [${array}]`
+function callbackFilter(number){
 
+    const biggerNumber = number > 30
 
+    return biggerNumber
 }
 
 
-function filter(array , callback) {
+function filter(number , callback){
 
-    let arrFilter = []
+    let array = []
 
-    for(let i = 0 ; i < array.length ; i++){
+    for(let i = 0 ; i < number.length ; i++){
 
-        if(array[i] > 2 ){
+        let value = number[i]
 
-            arrFilter.push(callback(array[i] ,i , array))
+        let result = callback(value , i , number)
+
+        if(result){
+
+            array.push(value)
         }
     }
 
-    return arrFilter
+    return array
+
+}
+
+console.log(filter(numbers , callbackFilter))
+
+
+
+
+// ------ FIND ------- ////
+
+function callbackFind(number){
+
+    const biggerNumber = number > 30
+
+    return biggerNumber
 
 }
 
 
-console.log(filter( numbers  , callbackFilter))
+function find(number , callback){
 
+    for(let i = 0 ; i < number.length ; i++){
 
+        let value = number[i]
 
+        let result = callback(value , i , number)
 
+        if(result){
 
-// ----- FIND ------- //
-
-
-function callbackFind(element , index , array){
-
-    return array[index];
-
-}
-
-
-
-function find (array , callback ){
-
-    let  numFind 
-
-
-    for(let i = 0 ; i < array.length ; i++){
-
-        if(array[i] == 38){
-
-            numFind = (callback(array[i] , i , array))
+            return value
         }
-
     }
-
-    return numFind
 
 }
 
-console.log(find( numbers , callbackFilter))
+console.log(find(numbers , callbackFind))
 
 
 
 
-// ------  REDUCE ------////
+// ----- REDUCE ----- ///
 
 
+function callbackReduce(accumalator , currentValue){
 
+    const sum = accumalator + currentValue
 
-function callbackReduce(accumulator , amount ){
-
-    return accumulator
-
+    return sum 
 }
 
+function reduce(number , callback , initialValue = 0 ){
 
-function reduce (array , callback){
+    let accumalator = 0 
 
-    let accumulator = 0
+    for(let i = 0 ; i < number.length ; i++){
 
-    for(let i = 0 ; i < array.length ; i++){
+        let value = number[i]
 
-        accumulator += (callback(array[i], i , array))
+        accumalator = callback(accumalator , value , i , number)
     }
 
-    return `O total é ${accumulator}`
-
+    return initialValue + accumalator
 }
 
 console.log(reduce(numbers , callbackReduce))
 
 
-
-// ------- INCLUDE ----- //
-
+// ----- INCLUDES  ------ ///
 
 
-function include(array , seekNumber){
+function includes(number , seekNumber){
 
-    for(let i = 0 ; i < array.length ; i++){
+    let result = 0 
 
-        if(array[i] == seekNumber){
+    for(let i = 0 ; i < number.length ; i++){
 
-            return true
+        let value = number[i]
+
+        if(seekNumber == value){
+
+            result = value
 
         }
     }
 
-    return false
+    if(result  === seekNumber){
+
+        return true
+
+    }else{
+
+        return false 
+    }
 
 }
 
-console.log(include(numbers , 39))
+console.log(includes(numbers , 80))
 
 
 
+// ---- IndexOf ---///
 
-// ---- indexOf ----- // 
 
 
-function indexOf (array , seekNumber){
+function indexOf( number , seekvalue , seekPosition = 0 ) {
 
-    for(let i = 0 ; i < array.length ; i++){
+    let position = ''
 
-        if(array[i] == seekNumber){
+    for(let i = seekPosition ; i < number.length ; i++){
 
-            return i
+        let value = number[i]
+
+        if(seekvalue === value ){
+
+            position = i 
         }
     }
 
-   return '-1'
+    if(position !== ''){
+
+        return position
+
+    }else{
+
+        return '-1'
+    }
+
 
 }
 
-
-console.log(indexOf(numbers , 38))
-
+console.log(indexOf(numbers , 24))
 
 
 
